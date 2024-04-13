@@ -301,7 +301,7 @@ export default function Creator(): JSX.Element {
 	const emojiInputRef = useRef<HTMLInputElement>(null);
 
 	const onFileSelected = (file: File | undefined) => {
-		if (!file) return;
+		if (!file || !file.type.startsWith('image/')) return;
 
 		imageElement.src = URL.createObjectURL(file);
 

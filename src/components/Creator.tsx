@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, ChangeEvent } from 'react';
 import FileSelector from './FileSelector';
 import MessagePreview from './MessagePreview';
-import Settings, { SettingsValues, defaultSettings, NONE_COLOUR_NAME } from './Settings';
+import Settings, { SettingsValues, defaultSettings, NONE_COLOUR_NAME, scrollToSettingsContainer } from './Settings';
 import { frameCount, getTransformationMatrices, colours } from '../config/animation';
 
 const maxWidth = 100;
@@ -321,6 +321,7 @@ export default function Creator(): JSX.Element {
 
 		// Clear the existing output, to avoid confusion
 		setOutputImageBlobUrl(null);
+		scrollToSettingsContainer();
 	};
 
 	const onTextEntered = (event: ChangeEvent) => {

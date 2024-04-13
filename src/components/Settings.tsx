@@ -23,6 +23,15 @@ export const defaultSettings: SettingsValues = {
 
 export const NONE_COLOUR_NAME = 'none';
 
+const SETTINGS_CONTAINER_ID = 'settings-container';
+
+export const scrollToSettingsContainer = (): void => {
+	const container = document.getElementById(SETTINGS_CONTAINER_ID);
+	if (container) {
+		container.scrollIntoView({ behavior: 'smooth' });
+	}
+};
+
 const colourOptions = {
 	...colourLabels,
 	[NONE_COLOUR_NAME]: 'None',
@@ -65,7 +74,7 @@ export default function Settings(props: { onSettingsChanged: (values: SettingsVa
 	};
 
 	return (
-		<div className='Settings SettingsContainer__Section'>
+		<div className='Settings SettingsContainer__Section' id={SETTINGS_CONTAINER_ID}>
 			<h2 className='Heading Heading--2'>2. Settings</h2>
 			<label className='Settings__Label' htmlFor='wave-select'>
 				Wavey style

@@ -88,8 +88,9 @@ function getPixelBoundsForCanvas(ctx: CanvasRenderingContext2D): CropBounds {
 
 function getPixelBounds(image: CanvasImageSource): CropBounds {
 	const cropperCanvas = document.createElement('canvas');
-	cropperCanvas.width = image.width as number;
-	cropperCanvas.height = image.height as number;
+	const { width: imageWidth, height: imageHeight } = image as { width: number; height: number };
+	cropperCanvas.width = imageWidth;
+	cropperCanvas.height = imageHeight;
 
 	const cropperCtx = cropperCanvas.getContext('2d');
 
@@ -97,8 +98,8 @@ function getPixelBounds(image: CanvasImageSource): CropBounds {
 		return {
 			top: 0,
 			left: 0,
-			right: image.width as number,
-			bottom: image.height as number,
+			right: imageWidth,
+			bottom: imageHeight,
 		};
 	}
 
@@ -300,6 +301,8 @@ export default function Creator(): JSX.Element {
 	const emojiInputRef = useRef<HTMLInputElement>(null);
 
 	const onFileSelected = (file: File | undefined) => {
+		if (!file) return;
+
 		imageElement.src = URL.createObjectURL(file);
 
 		if (emojiInputRef.current) {

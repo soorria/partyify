@@ -12,7 +12,7 @@ export interface SettingsValues {
 }
 
 export const defaultSettings: SettingsValues = {
-	waveStyle: 'classic',
+	waveStyle: 'centered',
 	blendMode: 'overlay',
 	verticalCenter: 1,
 	magnitude: 1,

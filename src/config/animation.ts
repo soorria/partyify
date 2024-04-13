@@ -1,6 +1,6 @@
 export const waveStyles = {
-	classic: 'Classic',
 	centered: 'Centered',
+	classic: 'Classic',
 	bounce: 'Bounce/bop',
 };
 
@@ -258,6 +258,4 @@ export function getTransformationMatrices(
 				],
 			];
 	}
-
-	return [];
 }

@@ -3,6 +3,7 @@ import FileSelector from './FileSelector';
 import MessagePreview from './MessagePreview';
 import Settings, { SettingsValues, defaultSettings, NONE_COLOUR_NAME, scrollToSettingsContainer } from './Settings';
 import { frameCount, getTransformationMatrices, colours } from '../config/animation';
+import { download } from '../util/download';
 
 const maxWidth = 100;
 const maxHeight = maxWidth;
@@ -12,6 +13,7 @@ interface ImageMeta {
 	loaded: boolean;
 	width: number;
 	height: number;
+	name: string;
 }
 
 interface CropBounds {
@@ -274,6 +276,21 @@ function renderCachedFrame(canvasCtx: CanvasRenderingContext2D, cachedFrame: Ima
 	canvasCtx.putImageData(cachedFrame, -crop.left, -crop.top);
 }
 
+function getOutputGifName(fileName: string) {
+	if (!fileName) {
+		return 'party.gif';
+	}
+
+	const nameParts = fileName.split('.');
+
+	// pop extension if there is one
+	if (nameParts.length > 1) {
+		nameParts.pop();
+	}
+
+	return `party-${nameParts.join('.')}.gif`;
+}
+
 export default function Creator(): JSX.Element {
 	const [settings, setSettings] = useState<SettingsValues>({
 		...defaultSettings,
@@ -289,7 +306,7 @@ export default function Creator(): JSX.Element {
 		return canvas;
 	});
 	const [imagePrepCanvas] = useState<HTMLCanvasElement>(document.createElement('canvas'));
-	const [imageMeta, setImageMeta] = useState<ImageMeta>({ loaded: false, width: 0, height: 0 });
+	const [imageMeta, setImageMeta] = useState<ImageMeta>({ loaded: false, width: 0, height: 0, name: '' });
 	const [lastRenderIteration, setLastRenderIteration] = useState(0);
 	const [lastRenderTime, setLastRenderTime] = useState(0);
 	const [outputImageBlobUrl, setOutputImageBlobUrl] = useState<string | null>(null);
@@ -314,6 +331,7 @@ export default function Creator(): JSX.Element {
 				loaded: true,
 				width: imageElement.width,
 				height: imageElement.height,
+				name: file.name,
 			});
 
 			setImageSource(imageElement);
@@ -342,6 +360,7 @@ export default function Creator(): JSX.Element {
 			loaded: true,
 			width: emojiCanvas.width,
 			height: emojiCanvas.height,
+			name: value,
 		});
 
 		setImageSource(emojiCanvas);
@@ -475,6 +494,8 @@ export default function Creator(): JSX.Element {
 		outputElementRef.current?.scrollIntoView();
 	};
 
+	const outputGifName = getOutputGifName(imageMeta.name);
+
 	return (
 		<section className='Creator'>
 			<FileSelector onFileSelected={onFileSelected} />
@@ -511,8 +532,18 @@ export default function Creator(): JSX.Element {
 			<div className='Output' ref={outputElementRef}>
 				{outputImageBlobUrl && (
 					<>
+						<button type='button' className='Button' onClick={() => download(outputImageBlobUrl, outputGifName)}>
+							Download
+						</button>
+
+						<div className='Output__Separator'>
+							<small>
+								<em>or</em>
+							</small>
+						</div>
+
 						<p>Right click / long-press on the image below, choose save, and get the party started!</p>
-						<img className='Output__Image' alt='' src={outputImageBlobUrl} />
+						<img className='Output__Image' alt={outputGifName} src={outputImageBlobUrl} />
 						<p>
 							Please be considerate of others when using any images from here, particularly on platforms with no option
 							to disable animated emoji.

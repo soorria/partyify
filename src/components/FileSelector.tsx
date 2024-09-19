@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import useDrop from 'react-use/esm/useDrop';
 
-export default function FileSelector(props: { onFileSelected: (fileUrl: File | undefined) => void }): JSX.Element {
+export default function FileSelector(props: { onFileSelected: (file: File | undefined) => void }): JSX.Element {
 	const state = useDrop({
 		onFiles(files) {
 			if (files.length) {

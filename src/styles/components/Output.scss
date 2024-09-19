@@ -2,12 +2,18 @@
 
 .Output {
 	text-align: center;
-	margin-top: spacing.$v * 2;
+	margin-top: spacing.$v * 4;
 	text-transform: lowercase;
 	line-height: 1.5;
 }
 
-.Output__Image {
+.Output__Image{
 	margin-top: spacing.$v;
 	margin-bottom: spacing.$v;
+}
+
+.Output__Separator {
+	margin-block: spacing.$v * 2;
+	font-style: italic;
+	font-size: 0.8em;
 }

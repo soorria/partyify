@@ -3,7 +3,7 @@ import FileSelector from './FileSelector';
 import MessagePreview from './MessagePreview';
 import Settings, { SettingsValues, defaultSettings, NONE_COLOUR_NAME, scrollToSettingsContainer } from './Settings';
 import { frameCount, getTransformationMatrices, colours } from '../config/animation';
-import { download } from '../util/download';
+import { downloadFromUrl } from '../util/download';
 
 const maxWidth = 100;
 const maxHeight = maxWidth;
@@ -532,7 +532,7 @@ export default function Creator(): JSX.Element {
 			<div className='Output' ref={outputElementRef}>
 				{outputImageBlobUrl && (
 					<>
-						<button type='button' className='Button' onClick={() => download(outputImageBlobUrl, outputGifName)}>
+						<button type='button' className='Button' onClick={() => downloadFromUrl(outputImageBlobUrl, outputGifName)}>
 							Download
 						</button>
 
